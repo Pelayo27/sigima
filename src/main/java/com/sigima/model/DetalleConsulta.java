@@ -17,14 +17,14 @@ public class DetalleConsulta {
 	@Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private int idDetalleConsulta;
+	
 	@JsonIgnore
 	@ManyToOne
-    @JoinColumn(name="idConsulta", nullable = false)
-    private Paciente idConsulta;
+    @JoinColumn(name="id_Consulta", nullable = false)
+    private Consulta consulta;
 	
 	@Column(name="diagnostico", nullable = false,length = 30)
     private String diagnostico;
-	
 	@Column(name="tratamiento", nullable = false,length = 30)
     private String tratamiento;
 	

@@ -1,15 +1,24 @@
 package com.sigima.model;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.crypto.Data;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 
 
@@ -21,15 +30,20 @@ public class Consulta {
 	 private int idConsulta;
 	
 	
-	@Column(name = "fecha", nullable = false)
-	public Data fecha;
-	@OneToMany
+	@JsonSerialize(using = ToStringSerializer.class)
+	private LocalDateTime fecha; 
+	
+	@OneToMany(mappedBy = "consulta", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE }, 
+			fetch = FetchType.LAZY, orphanRemoval = true)
+	private  List<DetalleConsulta> detalleconsulta;
+	
+	@ManyToOne
     @JoinColumn(name="idPaciente", nullable = false)
     private Paciente idPaciente;
-	@OneToMany
+	@ManyToOne
     @JoinColumn(name="idMedico", nullable = false)
     private Medico idMedico;
-	@OneToMany
+	@ManyToOne
     @JoinColumn(name="idEspecialidad", nullable = false)
     private Especialidad idEspecialidad;
 	
